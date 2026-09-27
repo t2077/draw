@@ -203,7 +203,8 @@ def pin_slot_edges(entity):
         if flipped:
             ly, own = -ly, -own
         ox, oy = cx + lx * c - ly * s, cy + lx * s + ly * c
-        lines, acs = relief_rect((ox, oy), math.radians(own), hw, hl, RELIEF)
+        # 孔的朝向 = 组件转角 + 孔自己的转角。漏掉 t 的话，转过的组件导出来还是正的
+        lines, acs = relief_rect((ox, oy), t + math.radians(own), hw, hl, RELIEF)
         edges.extend(lines)
         arcs.extend(acs)
     return edges, arcs
