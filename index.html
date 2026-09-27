@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>画线工具</title>
+<link rel="stylesheet" href="style.css?v=25">
+</head>
+<body>
+<div id="bar">
+  <button data-tool="black" class="on" title="1">线段·黑</button>
+  <button data-tool="red" title="2">线段·红</button>
+  <button data-tool="rect-black" title="3">矩形·黑</button>
+  <button data-tool="rect-red" title="4">矩形·红</button>
+  <button data-tool="relief-red" title="四角换成 r=0.07 的 180° 半圆（销孔组件本来就长这样）">掏角矩形·红</button>
+  <button data-tool="pick" title="5">选择</button>
+  <button id="delete">删除</button>
+  <span class="gap"></span>
+  <span id="pins" class="pins"></span>
+  <span class="gap"></span>
+  <label title="按 6 开关"><input type="checkbox" id="snap" checked>吸附</label>
+  <label><input type="checkbox" id="grid" checked>网格</label>
+  <label><input type="checkbox" id="sym">对称</label>
+  <span class="gap"></span>
+  <button id="undo">撤销</button>
+  <button id="redo">重做</button>
+  <button id="fit">适应窗口</button>
+  <span class="gap"></span>
+  <select id="slots"></select>
+  <button id="slot-new">新建档</button>
+  <button id="slot-rename">改名</button>
+  <button id="slot-del">删档</button>
+  <span class="gap"></span>
+  <button id="export">导出</button>
+  <button id="import">导入</button>
+  <input type="file" id="file" accept=".json" hidden>
+</div>
+<div id="props" hidden>
+  <span class="tag">矩形</span>
+  <label>宽<input id="p-w" type="number" step="0.1" min="0.01"></label>
+  <label>高<input id="p-h" type="number" step="0.1" min="0.01"></label>
+  <label>中心X<input id="p-x" type="number" step="0.1"></label>
+  <label>中心Y<input id="p-y" type="number" step="0.1"></label>
+  <label>转角<input id="p-a" type="number" step="1"></label>
+  <span class="tag">mm / °</span>
+</div>
+<svg id="board"></svg>
+<div id="tip"></div>
+<script type="module" src="js/main.js?v=25"></script>
+</body>
+</html>
