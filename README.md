@@ -4,14 +4,19 @@
 
 ## 打开
 
-**不要直接双击 `index.html`**：ES module 和 localStorage 在 `file://` 下会被浏览器挡住。
-起一个本地静态服务就行，比如：
+直接开：**https://t2077.github.io/draw/**
+
+本地跑：**不要直接双击 `index.html`** —— ES module 和 localStorage 在 `file://` 下会被
+浏览器挡住。起一个静态服务就行：
 
 ```
 python -m http.server 8000
 ```
 
-然后进 `http://localhost:8000/`。任何静态服务器（Caddy / nginx / `npx serve`）都一样。
+然后进 `http://localhost:8000/`。Caddy / nginx / `npx serve` 都一样。
+
+> 存档存在浏览器的 localStorage 里，按**域名**分开。GitHub Pages 和你本地服务是两个
+> 不同的源，各存各的，导出的 JSON 可以互相导入。
 
 ## 文件
 
