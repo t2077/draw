@@ -1,5 +1,5 @@
-import * as geom from './geom.js?v=25';
-import * as store from './store.js?v=25';
+import * as geom from './geom.js?v=26';
+import * as store from './store.js?v=26';
 
 const WIDTH = 195;        // 画布尺寸 mm
 const HEIGHT = 95;

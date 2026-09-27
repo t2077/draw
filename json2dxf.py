@@ -41,9 +41,11 @@ const { entities, sym } = JSON.parse(raw);
 // 镜像还是它自己 —— 但它跟别的黑线一样是切割轮廓，刀路照算。
 const isAxis = e => e.type === 'segment' && e.color === 'black' && e.sym === true;
 const axis = sym ? entities.find(isAxis) : null;
+// 转角一律取反：关于水平线反射会把左右手反过来
 const mirror = (e, y0) => (e.type === 'pins'
   ? { ...e, center: { x: e.center.x, y: 2 * y0 - e.center.y }, angle: -e.angle }
-  : { ...e, a: { x: e.a.x, y: 2 * y0 - e.a.y }, b: { x: e.b.x, y: 2 * y0 - e.b.y } });
+  : { ...e, angle: e.angle ? -e.angle : e.angle,
+      a: { x: e.a.x, y: 2 * y0 - e.a.y }, b: { x: e.b.x, y: 2 * y0 - e.b.y } });
 const all = axis ? entities.concat(entities.filter(e => !isAxis(e)).map(e => mirror(e, axis.a.y)))
                  : entities;
 
@@ -215,11 +217,14 @@ def is_sym_axis(e):
 
 
 def mirror_entity(e, y0):
-    """关于水平线 y = y0 镜像，跟 js/geom.js 的 mirrorEntity 一致。"""
+    """关于水平线 y = y0 镜像，跟 js/geom.js 的 mirrorEntity 一致。
+    转角一律取反：关于水平线反射会把左右手反过来。"""
+    turn = {"angle": -e["angle"]} if e.get("angle") else {}
     if e["type"] == "pins":
-        return {**e, "center": {"x": e["center"]["x"], "y": 2 * y0 - e["center"]["y"]},
-                "angle": -e.get("angle", 0.0), "mirrored": True}
-    return {**e, "a": {"x": e["a"]["x"], "y": 2 * y0 - e["a"]["y"]},
+        return {**e, **turn, "mirrored": True,
+                "center": {"x": e["center"]["x"], "y": 2 * y0 - e["center"]["y"]}}
+    return {**e, **turn,
+            "a": {"x": e["a"]["x"], "y": 2 * y0 - e["a"]["y"]},
             "b": {"x": e["b"]["x"], "y": 2 * y0 - e["b"]["y"]}}
 
 

@@ -457,12 +457,16 @@ export function slotPath(center, angleDeg) {
 // 关于水平线 y = y0 镜像。点的 y 翻到 2*y0−y；销孔元件还要把转角反向。
 export function mirrorPoint(p, y0) { return { x: p.x, y: 2 * y0 - p.y }; }
 
+// 反射 = 位置镜像 + **转角取反**。关于水平线反射会把左右手反过来：
+// 转 +θ 的矩形镜像过去必须是转 −θ 的，照着抄 +θ 就不是镜像了，
+// 看着像「对称的两份长得不一样」。
 export function mirrorEntity(entity, y0) {
+  const turned = entity.angle ? { angle: -entity.angle } : {};
   if (entity.type === 'pins') {
-    // 反射 = 中心的镜像 + 转角取反 + 本地 y 翻向（pinHoles 的 flipped）
-    return { ...entity, id: `${entity.id}-sym`, derived: true, mirrored: true,
-             center: mirrorPoint(entity.center, y0), angle: -entity.angle };
+    // 销孔还要多一步：本地 y 翻向（pinHoles 的 flipped）
+    return { ...entity, id: `${entity.id}-sym`, derived: true, mirrored: true, ...turned,
+             center: mirrorPoint(entity.center, y0) };
   }
-  return { ...entity, id: `${entity.id}-sym`, derived: true,
+  return { ...entity, id: `${entity.id}-sym`, derived: true, ...turned,
            a: mirrorPoint(entity.a, y0), b: mirrorPoint(entity.b, y0) };
 }
